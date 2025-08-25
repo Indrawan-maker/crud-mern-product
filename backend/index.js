@@ -18,10 +18,8 @@ db.on('error', (error) => console.log(error))
 db.once('open', () => console.log('Database Connected...'))
 
 app.use(cors({
-    origin: [
-        process.env.CLIENT_URL,
-        process.env.CLIENT_URL_PROD
-    ],
+    origin:
+        process.env.CLIENT_URL_PROD,
     credentials: true
 }))
 app.use(express.json())
