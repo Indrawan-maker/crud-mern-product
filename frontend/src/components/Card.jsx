@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 
 
-export default function Card({ name, price, desc, img, id }) {
+export default function Card({ name, price, desc, img, id, deleteBtn }) {
 
     const formatRupiah = (num) => {
         if(!num) return "Rp 0"
@@ -9,8 +9,10 @@ export default function Card({ name, price, desc, img, id }) {
             style: "currency",
             currency: "IDR",
             minimumFractionDigits: 0,
-        });
-    };
+        })
+    }
+
+
 
     return (
         <>
@@ -37,7 +39,9 @@ export default function Card({ name, price, desc, img, id }) {
                             </div>
                         </div>
                         <div className='flex text-white gap-2 sm:gap-0  ml-42 sm:ml-66 absolute right bottom-0.5 translate-y-[20px] mb-8'>
-                            <button className='bg-red-500 hover:bg-red-700 cursor-pointer rounded-sm p-2'>Delete</button>
+                            <button className='bg-red-500 hover:bg-red-700 cursor-pointer rounded-sm p-2'
+                            onClick={deleteBtn}
+                            >Delete</button>
                             <Link to={`/edit/${id}`}>
                             <button className='bg-blue-500 hover:bg-blue-700 cursor-pointer rounded-sm px-4 py-2 sm:ml-4'>Edit</button>
                             </Link>

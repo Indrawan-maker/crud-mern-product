@@ -20,18 +20,25 @@ export default function EditUser() {
     useEffect(() => {
         getUserById();
     },[])
+
+
     const getUserById = async () => {
-        const response = await axios.get(`http://locahost:5000/users/${id}`)
+        const response = await axios.get(`${import.meta.env.VITE_REACT_APP_BACKEND_BASEURL}/users/${id}`)
         setName(response.data.name)
-        setName(response.data.description)
-        setName(response.data.image_url)
-        setName(response.data.price)
+        setDescription(response.data.description)
+        setImage_url(response.data.image_url)
+        setPrice(response.data.price)
     }
 
-    setTimeout(() => {
-        setErrorMessage("")
-        setSuccesMessage("")
-    }, 20000)
+    useEffect(() => {
+    if (errorMessage || succesMessage) {
+        const timer = setTimeout(() => {
+            setErrorMessage("")
+            setSuccesMessage("")
+        }, 20000)
+        return () => clearTimeout(timer)
+    }
+}, [errorMessage, succesMessage])
 
     const updateUser = async (e) => {
         e.preventDefault()
@@ -50,7 +57,6 @@ export default function EditUser() {
                 image_url,
                 price: Number(price)
             })
-
             setName("")
             setDescription("")
             setImage_url("")
@@ -72,7 +78,7 @@ export default function EditUser() {
     return (
         <>
             <div className="grid justify-center items-center mt-12">
-                <h1 className="font-bold text-4xl">Tambah produk</h1>
+                <h1 className="font-bold text-4xl">Edit produk</h1>
                 {errorMessage && 
                 <div role="alert" className="alert alert-error my-4">
                     <span>{errorMessage}</span>
