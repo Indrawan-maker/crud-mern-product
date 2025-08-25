@@ -36,7 +36,9 @@ const ProductList = () => {
                 name={item.name} 
                 price={item.price} 
                 desc={item.description} 
-                img={item.image_url}/>
+                img={item.image_url}
+                id={item._id}
+                />
                 })}
             </div>
             </div>

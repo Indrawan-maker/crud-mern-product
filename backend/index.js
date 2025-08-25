@@ -2,9 +2,12 @@ import express from 'express'
 import mongoose from 'mongoose'
 import cors from 'cors'
 import UserRoute from './routes/UserRoute.js'
+import dotenv from 'dotenv'
+
+dotenv.config()
 
 const app = express();
-mongoose.connect('mongodb://127.0.0.1:27017/fullstack_db', {
+mongoose.connect(process.env.MONGO_URI, {
     useNewUrlParser: true,
     useUnifiedTopology: true
 })
@@ -14,8 +17,15 @@ const db = mongoose.connection
 db.on('error', (error) => console.log(error))
 db.once('open', () => console.log('Database Connected...'))
 
-app.use(cors())
+app.use(cors({
+    origin: [
+        "https://crud-mern-product-jcjs.vercel.app/" 
+    ],
+    credentials: true
+}));
 app.use(express.json())
 app.use(UserRoute)
 
-app.listen(5000, () => console.log(`server running on port...`))
+const PORT = process.env.PORT || 5000
+
+app.listen(PORT, () => console.log(`server running on port...`))

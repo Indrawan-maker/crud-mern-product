@@ -1,27 +1,39 @@
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import axios from "axios"
-import { useNavigate } from "react-router-dom"
+import { useNavigate, useParams } from "react-router-dom"
 
 
-export default function AddUser() {
+export default function EditUser() {
     const [name, setName] = useState("")
     const [description, setDescription] = useState("")
     const [image_url, setImage_url] = useState("")
     const [price, setPrice] = useState("")
     const [errorMessage, setErrorMessage] = useState("")
     const [succesMessage, setSuccesMessage] = useState("")
+    const {id} = useParams()
     const navigate = useNavigate()
 
     console.log({
         name, description, image_url, price
     })
 
+    useEffect(() => {
+        getUserById();
+    },[])
+    const getUserById = async () => {
+        const response = await axios.get(`http://locahost:5000/users/${id}`)
+        setName(response.data.name)
+        setName(response.data.description)
+        setName(response.data.image_url)
+        setName(response.data.price)
+    }
+
     setTimeout(() => {
         setErrorMessage("")
         setSuccesMessage("")
     }, 20000)
 
-    const handleSubmit = async (e) => {
+    const updateUser = async (e) => {
         e.preventDefault()
         console.log(name)
         console.log(description)
@@ -32,7 +44,7 @@ export default function AddUser() {
             return
         }
         try {
-            await axios.post(`${import.meta.env.VITE_REACT_APP_BACKEND_BASEURL}/users`, { 
+            await axios.patch(`${import.meta.env.VITE_REACT_APP_BACKEND_BASEURL}/users/${id}`, { 
                 name,
                 description,
                 image_url,
@@ -78,7 +90,7 @@ export default function AddUser() {
             [box-shadow:rgba(9,_30,_66,_0.25)_0px_4px_8px_-2px,_rgba(9,_30,_66,_0.08)_0px_0px_0px_1px] 
             hover:[box-shadow:rgba(0,_0,_0,_0.25)_0px_0.0625em_0.0625em,_rgba(0,_0,_0,_0.25)_0px_0.125em_0.5em,_rgba(255,_255,_255,_0.1)_0px_0px_0px_1px_inset]
             px-2 py-2"
-                        action="" onSubmit={handleSubmit}>
+                        action="" onSubmit={updateUser}>
                         <div className=" md:w-full mt-4">
                             <label className="font-semibold text-gray-500"
                                 htmlFor="" >Nama</label>
@@ -127,7 +139,7 @@ export default function AddUser() {
                             <button className="bg-red-500 hover:bg-red-700 cursor-pointer rounded-sm p-2 mr-auto" type="button" onClick={handleCancel}>cancel</button>
                             <button className="bg-blue-500 hover:bg-blue-700 cursor-pointer rounded-sm px-4 py-2 sm:ml-4"
                                 type="submit"
-                            >Save</button>
+                            >Update</button>
                         </div>
                     </form>
                 </div>

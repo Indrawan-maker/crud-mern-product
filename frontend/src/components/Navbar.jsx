@@ -1,6 +1,8 @@
-
+import { useNavigate } from "react-router-dom"
 
 export default function Navbar() {
+        const navigate = useNavigate()
+
     return (
         <nav className="h-18 bg-slate-900 items-center">
             <div className="flex justify-between items-center text-white">
@@ -8,7 +10,9 @@ export default function Navbar() {
         <h1>Zahira Mart</h1>
                 </div>
                 <div className="mt-4 mr-6 sm:mr-22">
-        <button className="border-1 border-white bg-blue-700 rounded-md p-2 w-38 h-10 cursor-pointer">+ Tambah Produk</button>
+        <button className="border-1 border-white bg-blue-700 rounded-md p-2 w-38 h-10 cursor-pointer"
+        onClick={() => navigate("/add")}
+        >+ Tambah Produk</button>
                 </div>
             </div>
         </nav>
